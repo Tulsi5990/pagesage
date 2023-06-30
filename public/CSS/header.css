@@ -1,0 +1,150 @@
+.Header
+{
+    padding: 15px 13px 60px 13px
+    
+    
+}
+
+.Header .logo
+{
+    float: left;
+    font-family: 'Merriweather';
+    font-size: 128%;
+    font-weight: bold;
+    text-decoration: none;
+    color: #3e804e;
+    display: flex;
+    align-items: center;
+    
+}
+.website-name{
+    margin-top: 10px;
+}
+
+.Header .hdrght
+{
+    float: right;
+    font-family: 'Merriweather';
+    color: #3e804e;
+}
+div.Header .hdrght a
+{
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 128%;
+    text-decoration: none;
+    color: #3e804e !important;
+}
+.Header .hdrght button:hover
+{
+    /* font-weight: bold; */
+    cursor: pointer;
+}
+.Header .hdrght .icon
+{
+    display: none;
+    color: #3e804e;
+}
+.Header .hdrght .closebtn
+{
+    display: none;
+    color: #3e804e;
+}
+.hdrght .loggedIn img
+{
+    position: relative;
+    top: 10px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: black;
+  min-width: 160px;
+  box-shadow: 0 2px 2px 0 rgba(167, 187, 255, 0.2), 0 6px 20px 0 rgba(152, 212, 255, 0.19);
+  padding: 12px 16px;
+  z-index: 1;
+  right: 5px;
+  margin-right: 15px;
+  text-align: center;
+  color: #3e804e;
+}
+
+.dropdown-content p
+{
+    font-size: medium;
+    padding-bottom: 5px;
+    color: #3e804e;
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.Header .hdrght form a {
+   /* Set the desired color for the header text */
+    font-family: Merriweather; /* Set the desired font family for the header text */
+     /* Set the desired font size for the header text */
+  }
+  
+
+
+
+
+@media screen and (max-width: 768px) 
+{
+    .hdrght a {display: none;}
+    .hdrght .loggedIn {display: inline-block; position: relative; top: -5px;}
+    .dropdown-content {
+        position: absolute;
+        margin-right: 5px;
+    }
+    .Header .hdrght .icon 
+    {
+      float: right;
+      display: contents;
+    }
+    .Header .hdrght .fa 
+    {
+      padding-right: 5px;
+      position: relative; 
+      top: -5px;
+    }
+    .Header .responsive 
+    {
+        background-color: black;
+        text-align: center;
+        opacity: 75%;
+        box-shadow: 0 2px 2px 0 rgba(167, 187, 255, 0.2), 0 6px 20px 0 rgba(152, 212, 255, 0.19);
+        width: 200px;
+    }
+    .Header .responsive a 
+    {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-size: 128%;
+        text-decoration: none;
+        display: block;
+    }
+    .Header .responsive button 
+    {
+        width: fit-content;
+    }
+    .Header .responsive .closebtn 
+    {
+        display: block;
+        padding-left: 10px;
+        text-align: right;
+    }
+    .Header .responsive .closebtn:hover 
+    {
+        font-weight: bolder;
+    }
+    .Header .responsive .icon 
+    {
+        display: none;
+    }
+    .Header .responsive .loggedIn
+    {
+        display: none;
+    }
+}

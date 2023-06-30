@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Books</title>
+  <script>
+    // Clear the search input field when the page is loaded
+    window.onload = function() {
+      document.getElementById('search-input').value = '';
+    };
+  </script>
+  <link rel="stylesheet" href="CSS/books.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Diphylleia&family=Merriweather&family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="CSS/header.css"></link>
+</head>
+<body>
+  <% var log = false; %> <!-- or assign the appropriate value for the `log` variable -->
+        
+  <%- include("../partials/header", { log: log }) -%>
+
+  <p class="branch-name">Books for <h2><%= branch %></h2></p>
+
+  <form class="book-form" action="/books" method="GET">
+    <input type="hidden" name="branch" value="<%= branch %>">
+    <input id="search-input" type="text" name="search" placeholder="Search by book title or author" autocomplete="off">
+    <button class="search" type="submit">Search</button>
+  </form>
+
+  <% if (books.length === 0) { %>
+    <p class="no-books">No books available for this branch.</p>
+  <% } else { %>
+    <div class="book-container">
+      <% if (search) { %>
+        <% books.forEach((book) => { %>
+          <% if (book.title.toLowerCase().includes(search.toLowerCase()) || book.author.toLowerCase().includes(search.toLowerCase())) { %>
+            <div class="book-card">
+              <div class="book-image">
+                <img class="book-cover" src="<%= book.coverImage %>" alt="Book Cover">
+              </div>
+              <div class="book-details">
+                <h3 class="book-title"><%= book.title %></h3>
+                <p class="book-author">Author: <%= book.author %></p>
+                <p class="book-description">Description: <%= book.description %></p>
+                <!-- Other book details -->
+              </div>
+            </div>
+          <% } %>
+        <% }); %>
+      <% } else { %>
+        <% books.forEach((book) => { %>
+          <div class="book-card">
+            <div class="book-image">
+              <img class="book-cover" src="<%= book.coverImage %>" alt="Book Cover">
+            </div>
+            <div class="book-details">
+              <h3 class="book-title"><%= book.title %></h3>
+              <p class="book-author">Author: <%= book.author %></p>
+              <p class="book-description">Description: <%= book.description %></p>              <!-- Other book details -->
+            </div>
+          </div>
+        <% }); %>
+      <% } %>
+    </div>
+  <% } %>
+
+  <% if (errorMessage) { %>
+    <p class="error-message"><%= errorMessage %></p>
+  <% } %>
+
+
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="JS/header.js"></script>
+</body>
+</html>

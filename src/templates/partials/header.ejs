@@ -1,0 +1,51 @@
+<!-- HOW TO INCLUDE HEADER
+inside html after body starting tag <body> 
+
+also inlude css style link for header = CSS/header.css and java script file
+-->
+
+<!-- <div class="Header">
+    <a href="" class="logo"><img src="./images/mylogo.png" height=100px></img></a>
+    <div class="hdrght" id="myTopnav">
+        <form action="/header" method="post">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a href="#home"><button type="submit" name="header" value="1">HOME</button></a>
+            <a href="#about"><button type="submit" name="header" value="2">ABOUT</button></a>
+            <a href="#about"><button type="submit" name="header" value="3">LOGIN / SIGN UP</button></a>
+            <a href="javascript:void(0);" class="icon" onclick="openNav()">
+            <i class="fa fa-bars"></i>
+            </a>
+        </form>
+ </div>
+</div> -->
+ <div class="Header">
+    <a href="" class="logo"><img src="/images/logo.png" height=60px></img>  |       PAGESAGE</a>
+    <div class="hdrght" id="myTopnav">
+        <form  class="head" action="/header" method="post">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a href="#home"><button type="submit" name="header" value="1">HOME</button></a>
+            <a href="#about"><button type="submit" name="header" value="2" class="scroll-link">ABOUT</button></a>
+
+            <% if(log==false) {  %>
+                <a href="#about"><button type="submit" name="header" value="3">LOGIN / SIGN UP</button></a>
+            <% } %>
+            <% if(log==true) {  %>
+                <a href="#about"><button type="submit" name="header" value="6">YOUR PROFILE</button></a>
+            <% } %>
+            <a href="javascript:void(0);" class="icon" onclick="openNav()">
+            <i class="fa fa-bars"></i>
+            </a>
+            <% if(log == true) { %>
+                <a class="loggedIn">|</a>
+                <a  class="loggedIn dropdown"><img src="images/user.png" height="31 px" >
+                <div class="dropdown-content">
+                    <p><%= userName %></p>
+                    <p><button  type="submit" name="header" value="4">LOGOUT</button></p>
+                    <p><button  type="submit" name="header" value="5">SIGNOUT</button></p>
+                </div>
+                </a>
+            <% } %>
+        </form>
+    </div>
+
+</div> 

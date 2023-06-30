@@ -1,0 +1,107 @@
+<!-- <!-- <!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="css/page2.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Diphylleia&family=Merriweather&family=Open+Sans:wght@300&display=swap" rel="stylesheet"> 
+<body> 
+  <h1 class="heading"><span>CHOOSE YOUR BRANCH</span></h1>
+
+  <div class="branches">
+    <div class="left-branches">
+        <div class="branch">
+            <img  class="left" src="images/cs.png" alt="CS">
+            <button class="branch-button"> COMPUTER SCIENCE AND ENGINEERING</button>
+        </div>
+        <div class="branch">
+            <img class="left" src="images/AI.png" alt="AI&DS">
+           <button class="branch-button"> ARTIFICIAL INTELLIGENCE AND DATA SCIENCE</button>
+        </div>
+        <div class="branch">
+            <img class="left" src="images/mathematics.png" alt="M&C">
+            <button class="branch-button">MATHEMATICS AND COMPUTING</button>
+        </div>
+        <div class="branch">
+            <img class="left"src="images/Electrical.png" alt="EEE">
+            <button class="branch-button">ELECTRICAL AND ELECTRONICS ENGINEERING</button>
+        </div>
+    </div>
+        
+
+    <div class="right-branches">
+        <div class="branch">
+            <img class="right" src="images/mechanical.png" alt="ME">
+            <button class="branch-button">MECHANICAL ENGINEERING</button>
+        </div>
+        <div class="branch">
+            <img class="right" src="images/chemical.png" alt="CBE">
+            <button class="branch-button">CHEMICAL ENGINEERING</button>
+        </div>
+        <div class="branch">
+            <img class="right" src="images/civil.png" alt="CE">
+            <button class="branch-button">CIVIL ENGINEERING</button>
+        </div>
+        <div class="branch">
+            <img class="right" src="images/matellurgy.png" alt="MME">
+            <button class="branch-button">METALLURGY AND MATERIAL SCIENCE</button>
+        </div>
+    </div>
+  </div>
+   
+</body>
+
+</html> -->
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="CSS/branch_style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Diphylleia&family=Merriweather&family=Open+Sans:wght@300&display=swap" rel="stylesheet"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="CSS/header.css"></link>
+
+</head>
+<body> 
+  <%- include("../partials/header") -%>
+  <h1 class="heading"><span>CHOOSE YOUR BRANCH</span></h1>
+
+  <div class="branches">
+    <div class="branch1">
+      <img class="branch-image" src="images/computer.png" alt="CS">
+      <a href="/books?branch=computer"><button class="branch-button" type="submit">COMPUTER SCIENCE</button></a>
+    </div>
+    <div class="branch1">
+      <img class="branch-image" src="images/partnership.png" alt="AI&DS">
+      <a href="/books?branch=ARTIFICIAL INTELLIGENCE AND DATA SCIENCE"><button class="branch-button" type="submit">ARTIFICIAL INTELLIGENCE AND DATA SCIENCE</button></a>
+    </div>
+    <div class="branch1">
+      <img class="branch-image" src="images/study.png" alt="M&C">
+      <a href="/books?branch=mathematics"><button class="branch-button" type="submit">MATHEMATICS AND COMPUTING</button></a>
+    </div>
+    <div class="branch1">
+      <img class="branch-image" src="images/engineer.png" alt="EEE">
+      <a href="/books?branch=electrical"><button class="branch-button" type="submit">ELECTRICAL AND ELECTRONICS  ENGINEERING</button></a>
+    </div>
+    <div class="branch1">
+      <img class="branch-image" src="images/mechanic.png" alt="ME">
+      <a href="/books?branch=mechanical"><button class="branch-button" type="submit">MECHANICAL ENGINEERING</button></a>
+    </div>
+    <div class="branch1">
+      <img class="branch-image" src="images/science.png" alt="CBE">
+      <a href="/books?branch=chemical"><button class="branch-button" type="submit">CHEMICAL ENGINEERING</button></a>
+    </div>
+    <div class="branch1">
+      <img class="branch-image" src="images/architect.png" alt="CE">
+      <a href="/books?branch=civil"><button class="branch-button" type="submit">CIVIL ENGINEERING</button></a>
+    </div>
+    <div class="branch1">
+      <img class="branch-image" src="images/blacksmith.png" alt="MME">
+      <a href="/books?branch=metallurgy"><button class="branch-button" type="submit">METALLURGY AND MATERIAL SCIENCE</button></a>
+    </div>
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="JS/header.js"></script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: rgb(239, 237, 236);
+}
+
+.heading {
+  text-align: center;
+  font-family: Merriweather;
+  font-weight: bold;
+}
+
+.heading span {
+  display: inline-block;
+  border: 2px solid black;
+  padding: 5px 10px;
+  background-color: rgb(77, 118, 77);
+  box-shadow: inset black;
+  color: rgb(239, 237, 236);
+}
+
+.branches {
+  margin-top: 100px;
+}
+
+.branch1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 70px;
+  font-size: xx-large;
+  border: none;
+}
+
+
+.branch-image  {
+  width: 300px;
+  height: 300px;
+  margin-bottom: 10px;
+  border-radius: 30%;
+  overflow: hidden;
+  border: 4px solid #0b0a0a;
+  box-sizing: border-box;
+}
+
+.branch-button {
+  font-size: medium;
+  font-family: Merriweather;
+  font-weight: 100;
+  font-size: 30px;
+  border: none;
+  background-color: rgb(239, 237, 236);
+  color: rgb(10, 10, 10);
+  text-decoration: none;
+}
+
+.branch-button:hover {
+  font-weight: bolder;
+  cursor: pointer;
+  
+}
+button
+{
+    font-family: 'Merriweather';
+    font-size:  100%;
+    color: #3e804e;
+    background-color: #040624;
+    border: none;
+    padding: 0px 0px;
+    height: 0px;
+}
+button:hover
+{
+    font-weight: bold;
+}
+
+/* @media only screen and (min-width: 769px) {
+  .branches {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .branch {
+    width: calc(50% - 20px);
+  }
+} */
+  /* CSS for small screens */
+@media only screen and (max-width: 768px) {
+  .branches {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .left-branches, .right-branches {
+    width: 100%;
+  }
+
+  .branch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .left, .right {
+    margin-bottom: 10px;
+  }
+  .branch-image{
+    width: 300px;
+    height: 300px;
+  }
+}
+
+/* Additional CSS for styling */
+/* Add your own custom styles here */
+

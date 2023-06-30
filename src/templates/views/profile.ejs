@@ -1,0 +1,19 @@
+<!-- profile.ejs -->
+<html>
+  <head>
+    <title>User Profile</title>
+  </head>
+  <body>
+    <h1>Welcome to your profile</h1>
+    <h2>Your Cart</h2>
+    <% if (cartItems.length === 0) { %>
+      <p>Your cart is empty.</p>
+    <% } else { %>
+      <ul>
+        <% cartItems.forEach((item) => { %>
+          <li><%= item.name %></li>
+        <% }); %>
+      </ul>
+    <% } %>
+  </body>
+</html>

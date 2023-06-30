@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cart</title>
+  <link rel="stylesheet" href="/CSS/cart.css">
+</head>
+<body>
+  <h1>Cart</h1>
+  
+  <% if (student.cart.length === 0) { %>
+    <p>Your cart is empty.</p>
+  <% } else { %>
+    <ul>
+      <% student.cart.forEach((bookId) => { %>
+        <li><%= bookId %></li> <!-- Modify this to display book details -->
+      <% }); %>
+    </ul>
+  <% } %>
+  
+  <a href="/">Back to Books</a>
+</body>
+</html>
