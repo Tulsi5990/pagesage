@@ -2,21 +2,23 @@
 <html>
 <head>
   <title>Cart</title>
-  <link rel="stylesheet" href="/CSS/cart.css">
+  <!-- Add your CSS and JavaScript references -->
 </head>
 <body>
-  <h1>Cart</h1>
-  
-  <% if (student.cart.length === 0) { %>
-    <p>Your cart is empty.</p>
-  <% } else { %>
+  <h1>Your Cart</h1>
+
+  <% if (cartItems.length > 0) { %>
     <ul>
-      <% student.cart.forEach((bookId) => { %>
-        <li><%= bookId %></li> <!-- Modify this to display book details -->
+      <% cartItems.forEach((item) => { %>
+        <li><%= item %></li>
       <% }); %>
     </ul>
+  <% } else { %>
+    <p>Your cart is empty.</p>
   <% } %>
-  
-  <a href="/">Back to Books</a>
+
+  <!-- Add other cart-related content -->
+
 </body>
 </html>
+

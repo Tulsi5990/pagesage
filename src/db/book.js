@@ -23,11 +23,16 @@ const bookSchema = new mongoose.Schema({
     // Example image data: <Buffer ff d8 ff e0 00 10 4a ...>
   },
   stockCount: {
-    type: String,
+    type: Number,
     required: true
+    
+  },
+  maxDays: {
+    type: Number,
+    required: true
+    
   }
-  
-  
+ 
   // Add other book properties as needed
 });
 

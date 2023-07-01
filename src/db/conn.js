@@ -25,7 +25,7 @@ const studentSchema = new mongoose.Schema({
   cart: [{
     book: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Book'
+      ref: 'Book' // Update the reference to 'Book' model
     },
     quantity: Number
   }],

@@ -16,9 +16,9 @@
   <link rel="stylesheet" href="CSS/header.css"></link>
 </head>
 <body>
-  <% var log = false; %> <!-- or assign the appropriate value for the `log` variable -->
+  <!-- or assign the appropriate value for the `log` variable -->
         
-  <%- include("../partials/header", { log: log }) -%>
+  <%- include("../partials/header", { log: loggedIn }) -%>
 
   <p class="branch-name">Books for <h2><%= branch %></h2></p>
 
@@ -43,6 +43,14 @@
                 <h3 class="book-title"><%= book.title %></h3>
                 <p class="book-author">Author: <%= book.author %></p>
                 <p class="book-description">Description: <%= book.description %></p>
+                <% if (loggedIn) { %>
+                  <form action="/books/add-to-cart" method="post">
+                    <input type="hidden" name="bookId" value="<%= book._id %>">
+                    <button type="submit">Add to Cart</button>
+                  </form>
+                <% } else { %>
+                  <p>Please <a href="/login">login</a> to add to cart.</p>
+                <% } %>
                 <!-- Other book details -->
               </div>
             </div>
@@ -57,7 +65,16 @@
             <div class="book-details">
               <h3 class="book-title"><%= book.title %></h3>
               <p class="book-author">Author: <%= book.author %></p>
-              <p class="book-description">Description: <%= book.description %></p>              <!-- Other book details -->
+              <p class="book-description">Description: <%= book.description %></p>
+              <% if (loggedIn) { %>
+                <form action="/books/add-to-cart" method="post">
+                  <input type="hidden" name="bookId" value="<%= book._id %>">
+                  <button type="submit">Add to Cart</button>
+                </form>
+              <% } else { %>
+                <p>Please <a href="/login">login</a> to add to cart.</p>
+              <% } %>
+              <!-- Other book details -->
             </div>
           </div>
         <% }); %>
@@ -69,8 +86,6 @@
     <p class="error-message"><%= errorMessage %></p>
   <% } %>
 
-
-  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   <script src="JS/header.js"></script>
 </body>

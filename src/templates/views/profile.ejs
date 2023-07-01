@@ -1,19 +1,28 @@
-<!-- profile.ejs -->
+<!DOCTYPE html>
 <html>
-  <head>
-    <title>User Profile</title>
-  </head>
-  <body>
-    <h1>Welcome to your profile</h1>
-    <h2>Your Cart</h2>
-    <% if (cartItems.length === 0) { %>
-      <p>Your cart is empty.</p>
-    <% } else { %>
-      <ul>
-        <% cartItems.forEach((item) => { %>
-          <li><%= item.name %></li>
-        <% }); %>
-      </ul>
-    <% } %>
-  </body>
+<head>
+  <title>Profile</title>
+  <!-- Add your CSS and JavaScript references -->
+</head>
+<body>
+  <h1>Welcome, <%= userName %>!</h1>
+
+  <% if (cartItems && cartItems.length > 0) { %>
+    <h2>Your Cart:</h2>
+    <ul>
+      <% let uniqueBooks = new Map(); %>
+      <% cartItems.forEach((item) => { %>
+        <% const bookTitle = item.book.title; %>
+        <% if (!uniqueBooks.has(bookTitle)) { %>
+          <% uniqueBooks.set(bookTitle, item); %>
+          <li><%= item.quantity %> x <%= bookTitle %></li>
+        <% } %>
+      <% }) %>
+    </ul>
+  <% } else { %>
+    <p>Your cart is empty.</p>
+  <% } %>
+</body>
 </html>
+
+

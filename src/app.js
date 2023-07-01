@@ -3,6 +3,8 @@ const bodyParser = require("body-parser");
 const Student = require("./db/conn");
 const Book = require("./db/book");
 const app = express();
+const session = require("express-session");
+const Cart = require("./db/cart");
 
 // Import the Book schema
 
@@ -15,166 +17,218 @@ app.set('view engine', 'ejs');
 app.use(express.static(public_path));
 app.set("views", views_path);
 app.use(express.urlencoded({ extended: false }));
+app.use(
+  session({
+    secret: "your-secret-key",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
-var loggedIn=false;
-var userName="";
+var loggedIn = false;
+var userName = "";
 
-app.get("/", (req, res) => {
-  res.render("homepage" ,{log: loggedIn, userName: userName});
+// app.get("/", (req, res) => {
+//   res.render("homepage", { log: loggedIn, userName: userName });
+// });
+app.get("/", async (req, res) => {
+  const loggedIn = req.session.loggedIn || false;
+  const userName = req.session.userName || "";
+
+  res.render("homepage", { loggedIn: loggedIn, userName: userName });
 });
-
 
 
 app.get("/login", (req, res) => {
-  res.render("login" ,{log: loggedIn, userName: userName});
+  res.render("login", { loggedIn: loggedIn, userName: userName });
 });
 
 app.get("/signUp", (req, res) => {
-  res.render("signUp" ,{log: loggedIn, userName: userName});
+  res.render("signUp", { loggedIn: loggedIn, userName: userName });
 });
 
 app.get("/branch", (req, res) => {
-  res.render("branch" ,{log: loggedIn, userName: userName});
+  res.render("branch", { loggedIn: loggedIn, userName: userName });
 });
 
 app.get("/about", (req, res) => {
-  res.render("homepage",{log: loggedIn, userName: userName});
+  res.render("homepage", { loggedIn: loggedIn, userName: userName });
 });
 
-// app.get('/profile', (req, res) => {
-//   // Retrieve the user's cart items from the database or session
-//   const cartItems = []; // Retrieve the cart items for the current user
+app.get('/profile', isLoggedIn, async (req, res) => {
+  try {
+    const userEmail = req.session.user && req.session.user.email; // Assuming you have stored the logged-in user's email in the session
 
-//   res.render('profile', { cartItems });
-// });
+    const user = await Student.findOne({ email: userEmail }).populate("cart.book"); // Populate the book details in the user's cart
+
+    if (user) {
+      const cartItems = user.cart;
+      const loggedIn = req.session.loggedIn || false;
+      const userName = req.session.user ? req.session.user.name : '';
+
+      res.render("profile", { cartItems: cartItems, loggedIn: loggedIn, userName: userName, user: user });
+    } else {
+      // User not found, handle the error
+      res.render("error", { loggedIn: loggedIn, userName: userName, message: "User not found" });
+    }
+  } catch (error) {
+    // Handle the error
+    console.error("Error retrieving user profile:", error);
+    res.render("error", { loggedIn: loggedIn, userName: userName, message: "An error occurred while retrieving the user profile" });
+  }
+});
+
+app.get("/books", async (req, res) => {
+  const branch = req.query.branch;
+  const search = req.query.search;
+  let loggedIn = req.session.loggedIn || false;
+  let userName = req.session.user ? req.session.user.name : '';
+
+  try {
+    let books;
+
+    // Check if a search query is present
+    if (search) {
+      // Perform search based on title or author
+      books = await Book.find({
+        branch: branch,
+        $or: [
+          { title: { $regex: search, $options: "i" } },
+          { author: { $regex: search, $options: "i" } }
+        ]
+      });
+    } else {
+      // Fetch all books for the selected branch
+      books = await Book.find({ branch: branch });
+    }
+
+    res.render("books", { loggedIn: loggedIn, userName: userName, books: books, branch: branch, search: search, errorMessage: "" });
+  } catch (err) {
+    console.error("Error retrieving books:", err);
+    res.render("books", { loggedIn: loggedIn, userName: userName, books: [], branch: branch, search: search, errorMessage: "An error occurred while retrieving books." });
+  }
+});
+app.post("/books/add-to-cart", async (req, res) => {
+  const bookId = req.body.bookId; // Assuming the book ID is sent in the request body
+  const userEmail = req.session.user && req.session.user.email; // Assuming you have stored the logged-in user's email in the session
+
+  try {
+    if (userEmail) {
+      const user = await Student.findOne({ email: userEmail });
+      if (user) {
+        const book = await Book.findById(bookId);
+        if (book) {
+          if (book.stockCount > 0) {
+            const existingCartItem = user.cart.find(item => item.book.equals(bookId));
+            if (existingCartItem) {
+              existingCartItem.quantity += 1; // Increment the quantity if the book is already in the cart
+            } else {
+              user.cart.push({ book: bookId, quantity: 1 }); // Add the book to the user's cart
+            }
+            console.log('Before decrement:', book.stockCount);
+            book.stockCount -= 1;
+            console.log('After decrement:', book.stockCount); // Decrement the stock count of the book
+            await Promise.all([user.save(), book.save()]);
+            res.redirect("/profile"); // Redirect the user to their profile page
+          } else {
+            // Book out of stock, handle the error
+            res.render("error", { loggedIn: false, userName: "", message: "The book is currently out of stock" });
+          }
+        } else {
+          // Book not found, handle the error
+          res.render("error", { loggedIn: false, userName: "", message: "Book not found" });
+        }
+      } else {
+        // User not found, handle the error
+        res.render("error", { loggedIn: false, userName: "", message: "User not found" });
+      }
+    } else {
+      // User not logged in, show a message to login
+      res.render("error", { loggedIn: false, userName: "", message: "Please log in to add books to your cart" });
+    }
+  } catch (error) {
+    // Handle the error
+    console.error("Error adding book to cart:", error);
+    res.render("error", { loggedIn: false, userName: "", message: "An error occurred while adding the book to the cart" });
+  }
+});
 
 
-// Update the path to conn.js
-
-app.post("/signUp", function(req, res) {
+app.post("/signUp", function (req, res) {
   const emailName = req.body.email_uname;
   const passwordName = req.body.psw;
   const confirmpasswordName = req.body.confirmpsw;
 
   if (passwordName !== confirmpasswordName) {
-    res.render('signUp', { log: loggedIn, userName: userName, error: 'Password not matched' });
-  }
-
-  const student = new Student({
-    email: emailName,
-    password: passwordName
-  });
-
-  student.save()
-    .then(() => {
-      console.log("User saved successfully!");
-    })
-    .catch((error) => {
-      console.log(error);
+    res.render("signUp", { log: loggedIn, userName: userName, error: "Passwords do not match" });
+  } else {
+    const user = new Student({
+      email: emailName,
+      password: passwordName,
     });
 
-  res.redirect("/");
+    user
+      .save()
+      .then((user) => {
+        req.session.user = user;
+        req.session.loggedIn = true;
+        res.redirect("/");
+      })
+      .catch((error) => {
+        console.log(error);
+        res.render("signUp", { loggedIn: loggedIn, userName: userName, error: "An error occurred while signing up" });
+      });
+  }
 });
 
-app.post('/login', (req, res) => {
+app.post("/login", function (req, res) {
   const emailName = req.body.email_uname;
   const passwordName = req.body.psw;
 
-  Student.findOne({ email: emailName })
+  Student.findOne({ email: emailName, password: passwordName })
     .then((user) => {
       if (user) {
-        if (user.password === passwordName) {
-          // User found and password matched, proceed with login
-          loggedIn = true;
-          userName = emailName;
-          res.redirect("/");
-        } else {
-          // Invalid password
-          res.render('login', { log: loggedIn, userName: userName, error: 'Invalid password' });
-        }
+        req.session.user = user;
+        req.session.loggedIn = true;
+        req.session.userName = user.name;
+        res.redirect("/");
       } else {
-        // User not found
-        res.render('login', { log: loggedIn, userName: userName, error: 'User not found' });
+        res.render("login", { loggedIn: loggedIn, userName: userName, error: "User not found" });
       }
     })
     .catch((error) => {
-      // Error occurred during the query
-      res.render('login', { log: loggedIn, userName: userName, error: 'An error occurred' });
+      console.log(error);
+      res.render("login", { loggedIn: loggedIn, userName: userName, error: "An error occurred" });
     });
 });
 
+app.post("/header", async function (req, res) {
+  const header = req.body.header;
 
-
-
-  //------------------------
-
-  
-
-
-
-
-  app.get("/books", async (req, res) => {
-    const branch = req.query.branch;
-    const search = req.query.search;
-  
-    try {
-      let books;
-      
-      // Check if a search query is present
-      if (search) {
-        // Perform search based on title or author
-        books = await Book.find({
-          branch: branch,
-          $or: [
-            { title: { $regex: search, $options: "i" } },
-            { author: { $regex: search, $options: "i" } }
-          ]
-        });
-      } else {
-        // Fetch all books for the selected branch
-        books = await Book.find({ branch: branch });
-      }
-  
-      res.render("books", { books: books, branch: branch, search: search, errorMessage: "" });
-    } catch (err) {
-      console.error("Error retrieving books:", err);
-      res.render("books", { books: [], branch: branch, search: search, errorMessage: "An error occurred while retrieving books." });
-    }
-  });
-  
-
-  app.post("/header", async function(req, res)
-  {
-    const header = req.body.header;
-    if (header === "1") {
-      res.redirect("/");
-    }
-    else if(header==2){
-      res.redirect("/about");
-    }
-    else if(header==3){
-      res.redirect("/login");
-    } 
-    else if(header==4){
-      loggedIn=false;
-      res.redirect("/");
-    }
-    else if(header=="5"){
-      loggedIn=false;
-      await Signup.deleteOne({email: userName});
-      userName="";
-      res.redirect("/");
-    } 
-    else
-    {
-      console.log(header);
-    }
-  });
-
-
-/************************************************************************************* */
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
+  if (header === "1") {
+    res.redirect("/");
+  } else if (header === "2") {
+    res.redirect("/about");
+  } else if (header === "3") {
+    res.redirect("/login");
+  } else if (header === "4" || header === "5") {
+    req.session.loggedIn = false; // Update session to mark the user as logged out
+    req.session.userName = "";
+    req.session.user = null; // Clear the userName in the session
+    res.redirect("/");
+  } else {
+    console.log(header);
+  }
 });
 
+app.listen(3000, () => {
+  console.log("Server started on port 3000");
+});
 
+function isLoggedIn(req, res, next) {
+  if (req.session.loggedIn) {
+    next();
+  } else {
+    res.redirect("/login");
+  }
+}
