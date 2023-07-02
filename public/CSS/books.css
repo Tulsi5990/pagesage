@@ -14,7 +14,7 @@ body{
     padding: 20px;
     display: flex;
     align-items: center;
-   height: 300px;
+   height: 400px;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     background-color: #558a63;
@@ -29,6 +29,7 @@ body{
     font-weight: bold;
     margin-bottom: 10px;
     font-family: Merriweather;
+    text-transform: uppercase;
   }
 
   .book-author {
@@ -36,6 +37,7 @@ body{
     color: #0a0a0a;
     margin-bottom: 10px;
     font-family: Merriweather;
+    
   }
 
   .book-image {
@@ -44,11 +46,19 @@ body{
   }
   .book-cover {
     width: 180px;
-    height: 200px;
+    height: 250px;
     margin-bottom: 10px;
   }
   .book-description{
     font-family: Merriweather;
+  }
+  .book-stock{
+    font-family: Merriweather;
+    color: rgb(239, 237, 236);
+  }
+  .book-days{
+    font-family: Merriweather;
+    color: rgb(239, 237, 236);
   }
 
   .no-books {
@@ -108,4 +118,32 @@ body{
 button[name="header"]:hover
 {
     font-weight: bold;
+}
+/* profile.css */
+
+button.add {
+  background-color: black;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button.add:hover {
+  background-color: #333;
+}
+.login{
+  background-color: black;
+  color: white;
+  padding: 3px 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer; 
+  text-decoration: none;
+  color: rgb(239, 237, 236);
+}
+.login:hover{
+  background-color: #333;
+  color: rgb(239, 237, 236);
 }

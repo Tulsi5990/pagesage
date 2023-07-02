@@ -1,0 +1,78 @@
+/* profile.css */
+
+/* Styles for the cart table */
+table.cart {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-family: Merriweather;
+    
+  }
+  
+  table.cart th,
+  table.cart td {
+    padding: 10px;
+    text-align: left;
+    
+  }
+  
+  table.cart thead th {
+    
+    background-color: #3e804e;
+   
+  }
+  
+  table.cart tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  table.cart tbody tr:hover {
+    background-color: #eaeaea;
+  }
+  
+  /* General styles */
+  body {
+    font-family: Merriweather;
+    margin: 0;
+    padding: 20px;
+    
+    background-color:rgb(239, 237, 236);
+  }
+  
+  h1 {
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: 'Merriweather';
+  }
+  
+  h2 {
+    margin-top: 20px;
+    text-align: center;
+    font-family: 'Merriweather';
+  }
+  
+  p {
+    margin-top: 10px;
+  }
+
+th{
+color:rgb(239, 237, 236) ;
+}
+  
+  button
+{
+    font-family: 'Merriweather';
+    font-size:  100%;
+    color: #3e804e;
+    background-color: #040624;
+    border: none;
+    padding: 0px 0px;
+    height: 0px;
+}
+button:hover
+{
+    font-weight: bolder;
+}
+  
+  /* Additional styles can be added based on your preferences */
+  

@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
   <title>Profile</title>
-  <!-- Add your CSS and JavaScript references -->
-</head>
+  <link rel="stylesheet" href="CSS/profile.css">
+  Add your CSS and JavaScript references -->
+<!-- </head>
 <body>
   <h1>Welcome, <%= userName %>!</h1>
 
@@ -23,6 +24,57 @@
     <p>Your cart is empty.</p>
   <% } %>
 </body>
+</html> -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Profile</title>
+  <link rel="stylesheet" href="CSS/profile.css"> 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Diphylleia&family=Merriweather&family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+ 
+            
+            <!-- Header footer -->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link rel="stylesheet" href="CSS/header.css"></link>
+           <!-- Add the path to your CSS file -->
+</head>
+<body>
+  <%- include("../partials/header", { loggedIn: loggedIn }) -%> 
+  <h1>HEY! WELCOME<%= userName %></h1>
+
+  <% if (cartItems && cartItems.length > 0) { %>
+    <h2>YOUR CART ITEMS</h2>
+    <table class="cart">
+      <thead>
+        <tr>
+          <th>Book Name</th>
+          <th>Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% let uniqueBooks = new Set(); %>
+        <% cartItems.forEach((item) => { %>
+          <% const bookTitle = item.book.title; %>
+          <% if (!uniqueBooks.has(bookTitle)) { %>
+            <% uniqueBooks.add(bookTitle); %>
+            <tr>
+              <td><%= bookTitle %></td>
+              <td><%= item.quantity %></td>
+            </tr>
+          <% } %>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <p>Your cart is empty.</p>
+  <% } %>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="JS/header.js"></script>
+</body>
 </html>
+
 
 

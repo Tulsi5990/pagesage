@@ -18,7 +18,7 @@
 <body>
   <!-- or assign the appropriate value for the `log` variable -->
         
-  <%- include("../partials/header", { log: loggedIn }) -%>
+  <%- include("../partials/header", { loggedIn: loggedIn }) -%>
 
   <p class="branch-name">Books for <h2><%= branch %></h2></p>
 
@@ -41,15 +41,17 @@
               </div>
               <div class="book-details">
                 <h3 class="book-title"><%= book.title %></h3>
-                <p class="book-author">Author: <%= book.author %></p>
-                <p class="book-description">Description: <%= book.description %></p>
+                <p class="book-author">AUTHOR: <%= book.author %></p>
+                <p class="book-description">DESCRIPTION: <%= book.description %></p>
+                <p class="book-stock">BOOKS AVAILABLE IN STOCK : <%= book.stockCount %></p>
+                <p class="book-days">MAX-DAYS ALLOWED <%= book.maxDays %></p>
                 <% if (loggedIn) { %>
                   <form action="/books/add-to-cart" method="post">
                     <input type="hidden" name="bookId" value="<%= book._id %>">
-                    <button type="submit">Add to Cart</button>
+                    <button class="add" type="submit">Add to Cart</button>
                   </form>
                 <% } else { %>
-                  <p>Please <a href="/login">login</a> to add to cart.</p>
+                  <p>PLEASE <a class="login" href="/login">login</a> TO ADD TO CART.</p>
                 <% } %>
                 <!-- Other book details -->
               </div>
@@ -64,15 +66,17 @@
             </div>
             <div class="book-details">
               <h3 class="book-title"><%= book.title %></h3>
-              <p class="book-author">Author: <%= book.author %></p>
-              <p class="book-description">Description: <%= book.description %></p>
+              <p class="book-author">AUTHOR: <%= book.author %></p>
+              <p class="book-description">DESCRIPTION: <%= book.description %></p>
+              <p class="book-stock">BOOKS AVAILABLE IN STOCK: <%= book.stockCount %></p>
+                <p class="book-days">MAX-DAYS ALLOWED: <%= book.maxDays %></p>
               <% if (loggedIn) { %>
                 <form action="/books/add-to-cart" method="post">
                   <input type="hidden" name="bookId" value="<%= book._id %>">
-                  <button type="submit">Add to Cart</button>
+                  <button class="add" type="submit">Add to Cart</button>
                 </form>
               <% } else { %>
-                <p>Please <a href="/login">login</a> to add to cart.</p>
+                <p>PLEASE <a class="login" href="/login">LOGIN</a> TO ADD TO CART.</p>
               <% } %>
               <!-- Other book details -->
             </div>

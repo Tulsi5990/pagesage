@@ -216,7 +216,10 @@ app.post("/header", async function (req, res) {
     req.session.userName = "";
     req.session.user = null; // Clear the userName in the session
     res.redirect("/");
-  } else {
+  } 
+  else if (header === "6") {
+    res.redirect("/profile");
+  }else {
     console.log(header);
   }
 });
