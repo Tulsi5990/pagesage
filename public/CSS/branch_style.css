@@ -21,6 +21,9 @@ body {
 
 .branches {
   margin-top: 100px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .branch1 {
@@ -30,12 +33,15 @@ body {
   margin-bottom: 70px;
   font-size: xx-large;
   border: none;
+  width: 100%; /* Each branch takes 100% width by default */
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
 
 .branch-image  {
-  width: 300px;
-  height: 300px;
+  width: 200px;
+  height: 200px;
   margin-bottom: 10px;
   border-radius: 30%;
   overflow: hidden;
@@ -44,20 +50,24 @@ body {
 }
 
 .branch-button {
-  font-size: medium;
+  font-size: small;
   font-family: Merriweather;
-  font-weight: 100;
-  font-size: 30px;
-  border: none;
-  background-color: rgb(239, 237, 236);
-  color: rgb(10, 10, 10);
+  font-weight: 80;
+  font-size: 20px;
+  border: 3px solid rgb(10, 10, 10);
+  background-color: #3e804e;
+  color: rgb(239, 237, 236);
   text-decoration: none;
+  padding:  10px 10px 30px 20px; /* Add padding to give some spacing around the button text */
+  transition: all 0.3s ease;
+  border-radius: 10px;
 }
 
 .branch-button:hover {
   font-weight: bolder;
   cursor: pointer;
-  
+  background-color: black; /* Change the background color on hover */
+  color: rgb(239, 237, 236);
 }
 button
 {
@@ -86,7 +96,7 @@ button:hover
   }
 } */
   /* CSS for small screens */
-@media only screen and (max-width: 768px) {
+/* @media only screen and (max-width: 768px) {
   .branches {
     display: flex;
     flex-direction: column;
@@ -110,8 +120,13 @@ button:hover
     width: 300px;
     height: 300px;
   }
-}
+} */
 
 /* Additional CSS for styling */
 /* Add your own custom styles here */
 
+@media (min-width: 768px) { /* Adjust the breakpoint as needed */
+  .branch1 {
+    width: 50%; /* Each branch takes 50% width on large screens */
+  }
+}

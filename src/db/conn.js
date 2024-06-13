@@ -27,7 +27,8 @@ const studentSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Book' // Update the reference to 'Book' model
     },
-    quantity: Number
+    quantity: Number,
+    dateAdded: { type: Date, default: Date.now }
   }],
   created_at: {
     type: Date,

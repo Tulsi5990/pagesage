@@ -28,6 +28,19 @@ app.use(
 var loggedIn = false;
 var userName = "";
 
+const isLoggedIn = (req, res, next) => {
+  if (req.session.loggedIn && req.session.user) {
+    // User is logged in, set the loggedIn and userName variables in the session
+    res.locals.loggedIn = true;
+    res.locals.userName = req.session.user.name;
+  } else {
+    // User is not logged in, set the loggedIn and userName variables to false and an empty string respectively
+    res.locals.loggedIn = false;
+    res.locals.userName = '';
+  }
+  next();
+};
+
 // app.get("/", (req, res) => {
 //   res.render("homepage", { log: loggedIn, userName: userName });
 // });
@@ -56,6 +69,7 @@ app.get("/about", (req, res) => {
 });
 
 app.get('/profile', isLoggedIn, async (req, res) => {
+  
   try {
     const userEmail = req.session.user && req.session.user.email; // Assuming you have stored the logged-in user's email in the session
 
@@ -86,6 +100,15 @@ app.get("/books", async (req, res) => {
 
   try {
     let books;
+    let cartItems = [];
+
+    // Fetch cart items for the logged-in user
+    if (loggedIn) {
+      const user = await Student.findOne({ email: req.session.user.email });
+      if (user) {
+        cartItems = user.cart;
+      }
+    }
 
     // Check if a search query is present
     if (search) {
@@ -102,12 +125,13 @@ app.get("/books", async (req, res) => {
       books = await Book.find({ branch: branch });
     }
 
-    res.render("books", { loggedIn: loggedIn, userName: userName, books: books, branch: branch, search: search, errorMessage: "" });
+    res.render("books", { loggedIn, userName, books, branch, search, cartItems, errorMessage: "" });
   } catch (err) {
     console.error("Error retrieving books:", err);
-    res.render("books", { loggedIn: loggedIn, userName: userName, books: [], branch: branch, search: search, errorMessage: "An error occurred while retrieving books." });
+    res.render("books", { loggedIn, userName, books: [], branch, search, cartItems: [], errorMessage: "An error occurred while retrieving books." });
   }
 });
+
 app.post("/books/add-to-cart", async (req, res) => {
   const bookId = req.body.bookId; // Assuming the book ID is sent in the request body
   const userEmail = req.session.user && req.session.user.email; // Assuming you have stored the logged-in user's email in the session
@@ -121,35 +145,35 @@ app.post("/books/add-to-cart", async (req, res) => {
           if (book.stockCount > 0) {
             const existingCartItem = user.cart.find(item => item.book.equals(bookId));
             if (existingCartItem) {
-              existingCartItem.quantity += 1; // Increment the quantity if the book is already in the cart
+             return res.render("error", { loggedIn: true, userName: user.name, message: "Item already in your cart" }); // Increment the quantity if the book is already in the cart
             } else {
-              user.cart.push({ book: bookId, quantity: 1 }); // Add the book to the user's cart
+              user.cart.push({ book: bookId, quantity: 1 ,dateAdded: new Date()}); // Add the book to the user's cart
             }
             console.log('Before decrement:', book.stockCount);
             book.stockCount -= 1;
             console.log('After decrement:', book.stockCount); // Decrement the stock count of the book
             await Promise.all([user.save(), book.save()]);
-            res.redirect("/profile"); // Redirect the user to their profile page
+           return res.redirect("/profile"); // Redirect the user to their profile page
           } else {
             // Book out of stock, handle the error
-            res.render("error", { loggedIn: false, userName: "", message: "The book is currently out of stock" });
+           return res.render("error", { loggedIn: false, userName: "", message: "The book is currently out of stock" });
           }
         } else {
           // Book not found, handle the error
-          res.render("error", { loggedIn: false, userName: "", message: "Book not found" });
+          return res.render("error", { loggedIn: false, userName: "", message: "Book not found" });
         }
       } else {
         // User not found, handle the error
-        res.render("error", { loggedIn: false, userName: "", message: "User not found" });
+       return res.render("error", { loggedIn: false, userName: "", message: "User not found" });
       }
     } else {
       // User not logged in, show a message to login
-      res.render("error", { loggedIn: false, userName: "", message: "Please log in to add books to your cart" });
+      return res.render("error", { loggedIn: false, userName: "", message: "Please log in to add books to your cart" });
     }
   } catch (error) {
     // Handle the error
     console.error("Error adding book to cart:", error);
-    res.render("error", { loggedIn: false, userName: "", message: "An error occurred while adding the book to the cart" });
+    return res.render("error", { loggedIn: false, userName: "", message: "An error occurred while adding the book to the cart" });
   }
 });
 
@@ -228,10 +252,11 @@ app.listen(3000, () => {
   console.log("Server started on port 3000");
 });
 
-function isLoggedIn(req, res, next) {
-  if (req.session.loggedIn) {
-    next();
-  } else {
-    res.redirect("/login");
-  }
-}
+// function isLoggedIn(req, res, next) {
+//   if (req.session.loggedIn) {
+//     next();
+//   } else {
+//     res.redirect("/login");
+//   }
+// }
+

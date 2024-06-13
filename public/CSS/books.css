@@ -14,7 +14,7 @@ body{
     padding: 20px;
     display: flex;
     align-items: center;
-   height: 400px;
+   height: 480px;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     background-color: #558a63;
@@ -146,4 +146,15 @@ button.add:hover {
 .login:hover{
   background-color: #333;
   color: rgb(239, 237, 236);
+}
+
+ .already-in-cart{
+  border: 2px solid black !important;
+  padding: 4px;
+  font-family: Merriweather;
+  display: inline-block;
+  background-color: black;
+  color:rgb(239, 237, 236) ;
+  border-radius: 4px;
+
 }

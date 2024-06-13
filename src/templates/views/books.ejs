@@ -43,18 +43,26 @@
                 <h3 class="book-title"><%= book.title %></h3>
                 <p class="book-author">AUTHOR: <%= book.author %></p>
                 <p class="book-description">DESCRIPTION: <%= book.description %></p>
-                <p class="book-stock">BOOKS AVAILABLE IN STOCK : <%= book.stockCount %></p>
-                <p class="book-days">MAX-DAYS ALLOWED <%= book.maxDays %></p>
-                <% if (loggedIn) { %>
-                  <form action="/books/add-to-cart" method="post">
-                    <input type="hidden" name="bookId" value="<%= book._id %>">
-                    <button class="add" type="submit">Add to Cart</button>
-                  </form>
+                <p class="book-stock">BOOKS AVAILABLE IN STOCK: <%= book.stockCount %></p>
+                <p class="book-days">MAX-DAYS ALLOWED: <%= book.maxDays %></p>
+                
+                <% const existingCartItem = cartItems.find(item => item.book._id.equals(book._id)); %>
+                <% if (existingCartItem) { %>
+                  <p class="already-in-cart">Item already in cart</p>
                 <% } else { %>
-                  <p>PLEASE <a class="login" href="/login">login</a> TO ADD TO CART.</p>
+                  <% if (loggedIn) { %>
+                    <form action="/books/add-to-cart" method="post">
+                      <input type="hidden" name="bookId" value="<%= book._id %>">
+                      <button class="add" type="submit">Add to Cart</button>
+                    </form>
+                  <% } else { %>
+                    <p>PLEASE <a class="login" href="/login">login</a> TO ADD TO CART.</p>
+                  <% } %>
                 <% } %>
+                
                 <!-- Other book details -->
               </div>
+              
             </div>
           <% } %>
         <% }); %>
@@ -69,17 +77,25 @@
               <p class="book-author">AUTHOR: <%= book.author %></p>
               <p class="book-description">DESCRIPTION: <%= book.description %></p>
               <p class="book-stock">BOOKS AVAILABLE IN STOCK: <%= book.stockCount %></p>
-                <p class="book-days">MAX-DAYS ALLOWED: <%= book.maxDays %></p>
-              <% if (loggedIn) { %>
-                <form action="/books/add-to-cart" method="post">
-                  <input type="hidden" name="bookId" value="<%= book._id %>">
-                  <button class="add" type="submit">Add to Cart</button>
-                </form>
+              <p class="book-days">MAX-DAYS ALLOWED: <%= book.maxDays %></p>
+              
+              <% const existingCartItem = cartItems.find(item => item.book._id.equals(book._id)); %>
+              <% if (existingCartItem) { %>
+                <p  type="cart" class="already-in-cart">Item already in cart</p>
               <% } else { %>
-                <p>PLEASE <a class="login" href="/login">LOGIN</a> TO ADD TO CART.</p>
+                <% if (loggedIn) { %>
+                  <form action="/books/add-to-cart" method="post">
+                    <input type="hidden" name="bookId" value="<%= book._id %>">
+                    <button class="add" type="submit">Add to Cart</button>
+                  </form>
+                <% } else { %>
+                  <p>PLEASE <a class="login" href="/login">login</a> TO ADD TO CART.</p>
+                <% } %>
               <% } %>
+              
               <!-- Other book details -->
             </div>
+            
           </div>
         <% }); %>
       <% } %>
