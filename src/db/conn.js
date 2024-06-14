@@ -1,8 +1,8 @@
-
-
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb://127.0.0.1:27017/studentRegistration", {
+const mongoURI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/studentRegistration";
+
+mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
