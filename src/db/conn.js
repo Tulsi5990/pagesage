@@ -1,18 +1,15 @@
 const mongoose = require("mongoose");
 
-const mongoURI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/studentRegistration";
-
-mongoose.connect(mongoURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-  .then(() => {
-    console.log("Connection successful");
-  })
-  .catch((e) => {
-    console.log("Error connecting to MongoDB:", e);
+// Function to connect to MongoDB
+const connectDatabase = () => {
+  mongoose.connect(process.env.DB_URI).then((data) => {
+    console.log(`Mongodb connected with server: ${data.connection.host}`);
+  }).catch((err) => {
+    console.error("Error connecting to MongoDB:", err);
   });
+};
 
+// Define studentSchema and create Student model
 const studentSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -38,9 +35,8 @@ const studentSchema = new mongoose.Schema({
     type: String,
     default: () => new mongoose.Types.ObjectId().toString() // Generate a unique studentId
   }
-  
 });
 
 const Student = mongoose.model("Student", studentSchema);
 
-module.exports = Student;
+module.exports = { connectDatabase, Student };

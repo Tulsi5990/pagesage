@@ -1,6 +1,13 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const Student = require("./db/conn");
+
+const dotenv= require("dotenv");
+const { connectDatabase, Student }=require("./db/conn");
+
+dotenv.config({path:"src/db/config.env"});
+
+connectDatabase()
+
 const Book = require("./db/book");
 const app = express();
 const session = require("express-session");
@@ -247,10 +254,10 @@ app.post("/header", async function (req, res) {
     console.log(header);
   }
 });
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Server started on port ${port}`);
-});
+
+app.listen(process.env.PORT,()=>{
+  console.log(`Server is working on http://localhost:${process.env.PORT}`)
+})
 
 // function isLoggedIn(req, res, next) {
 //   if (req.session.loggedIn) {
